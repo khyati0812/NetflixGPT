@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import appStore from "./utils/appStore";
 function App() {
   return (
-    <div className="text-3xl font-bold text-green-800">
+    <div className="">
       <Provider store={appStore}>
         <Body />
       </Provider>

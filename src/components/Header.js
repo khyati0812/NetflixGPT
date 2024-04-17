@@ -1,12 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../utils/firebase";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
+import { addUser, removeUser } from "../utils/userSlice";
 const Header = () => {
   const user = useSelector((store) => store.user);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/auth.user
+        const { uid, email, password, displayName, photoURL } = user;
+        dispatch(
+          addUser({
+            uid: uid,
+            email: email,
+            displayName: displayName,
+            photoURL: photoURL,
+          })
+        );
+        // ...
+        navigate("/browse");
+      } else {
+        // User is signed out
+        // ...
+        dispatch(removeUser());
+        navigate("/");
+      }
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
@@ -16,7 +49,7 @@ const Header = () => {
     signOut(auth)
       .then(() => {
         // Sign-out successful.
-        navigate("/");
+        // navigate("/");
       })
       .catch((error) => {
         // An error happened.

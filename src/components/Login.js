@@ -51,17 +51,17 @@ const Login = () => {
             .then(() => {
               // Profile updated!
               // ...
-              const { uid, email, password, displayName, photoURL } =
-                auth.currentUser;
-              dispatch(
-                addUser({
-                  uid: uid,
-                  email: email,
-                  displayName: displayName,
-                  photoURL: photoURL,
-                })
-              );
-              navigate("/browse");
+              // const { uid, email, password, displayName, photoURL } =
+              //   auth.currentUser;
+              // dispatch(
+              //   addUser({
+              //     uid: uid,
+              //     email: email,
+              //     displayName: displayName,
+              //     photoURL: photoURL,
+              //   })
+              // );
+              // navigate("/browse");
             })
             .catch((error) => {
               // An error occurred

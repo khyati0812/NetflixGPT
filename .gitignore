@@ -8,6 +8,7 @@
 # testing
 /coverage
 /src/utils/firebase.js
+/src/utils/constants.js
 # production
 /build
 
